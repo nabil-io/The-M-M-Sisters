@@ -1,3 +1,5 @@
-# Allow all crawlers. Add a "Sitemap:" line once the site is deployed on its final domain.
+# Allow all crawlers.
 User-agent: *
 Allow: /
+
+Sitemap: https://nabil-io.github.io/The-M-M-Sisters/sitemap.xml

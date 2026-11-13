@@ -6,6 +6,9 @@ marque et créatrices de contenu basées au Bénin.
 Design éditorial sombre (encre + or), typographie Bodoni Moda / DM Sans, animations discrètes,
 galerie photos avec visionneuse accessible, et contact direct par Instagram.
 
+**En ligne : <https://nabil-io.github.io/The-M-M-Sisters/>**
+**Dépôt : <https://github.com/nabil-io/The-M-M-Sisters>**
+
 ---
 
 ## Contenu du dossier
@@ -15,8 +18,10 @@ index.html            ← le site (source de référence)
 standalone.html       ← version 1 seul fichier, images intégrées (~490 Ko)
 build-standalone.py   ← régénère standalone.html depuis index.html
 site.webmanifest      ← nom, icônes, couleur de thème
-robots.txt            ← indexation ouverte
+sitemap.xml           ← plan du site (une seule page)
+robots.txt            ← indexation ouverte + référence au sitemap
 llms.txt              ← résumé lisible par les moteurs IA (GEO)
+.nojekyll             ← évite le traitement Jekyll sur GitHub Pages
 assets/               ← photos WebP optimisées, icônes, image de partage og-cover.jpg
 ```
 
@@ -26,7 +31,6 @@ assets/               ← photos WebP optimisées, icônes, image de partage og-
 évite les restrictions de fichiers locaux :
 
 ```powershell
-cd "C:\Bruillon\moudja ma femme"
 python -m http.server 8000
 ```
 
@@ -41,9 +45,28 @@ python build-standalone.py
 
 ## Mise en ligne
 
-N'importe quel hébergement statique convient : Netlify, Vercel, GitHub Pages, Cloudflare Pages,
-ou un simple dossier FTP. Il suffit d'envoyer `index.html`, `assets/`, `site.webmanifest`,
-`robots.txt` et `llms.txt`.
+### GitHub Pages (actif)
+
+Le site est publié automatiquement depuis la branche **`gh-pages`** à chaque `git push` :
+
+<https://nabil-io.github.io/The-M-M-Sisters/>
+
+```powershell
+git add -A
+git commit -m "Mise à jour du site"
+git push origin main
+git push origin main:gh-pages   # ← déclenche la publication
+```
+
+Réglage côté GitHub (déjà fait) : *Settings → Pages → Source : Deploy from a branch →
+Branche `gh-pages` / dossier `/ (root)`*. Le déploiement prend 30 à 90 secondes ; l'état est
+visible dans l'onglet **Actions** du dépôt.
+
+### Autres hébergeurs
+
+N'importe quel hébergement statique convient : Netlify, Vercel, Cloudflare Pages, ou un simple
+dossier FTP. Il suffit d'envoyer `index.html`, `assets/`, `site.webmanifest`, `robots.txt`,
+`sitemap.xml` et `llms.txt`.
 
 ---
 
@@ -96,7 +119,8 @@ ou un simple dossier FTP. Il suffit d'envoyer `index.html`, `assets/`, `site.web
 - Données structurées **JSON-LD** (`WebSite` + `ProfilePage` + deux `Person` avec leurs profils
   Instagram).
 - Favicon SVG inline, icônes 180/192/512, `site.webmanifest`.
-- `robots.txt`, `llms.txt` (résumé pour les moteurs IA) et liens internes explicites.
+- `canonical`, `og:url` et image de partage en **URL absolue**, `sitemap.xml`, `robots.txt`
+  (avec la ligne `Sitemap:`) et `llms.txt` (résumé pour les moteurs IA).
 
 ### Accessibilité
 
@@ -122,30 +146,25 @@ ou un simple dossier FTP. Il suffit d'envoyer `index.html`, `assets/`, `site.web
   progressif, grain photographique très léger, parallaxe limitée aux pointeurs fins.
 - Pied de page structuré, année automatique, retour en haut.
 
-## À personnaliser avant mise en ligne
+## Personnalisation
 
-1. **Domaine** — dès que l'URL définitive est connue, ajouter dans `<head>` :
-   ```html
-   <link rel="canonical" href="https://VOTRE-DOMAINE/">
-   <meta property="og:url" content="https://VOTRE-DOMAINE/">
-   <meta property="og:image" content="https://VOTRE-DOMAINE/assets/og-cover.jpg">
-   <meta name="twitter:image" content="https://VOTRE-DOMAINE/assets/og-cover.jpg">
-   ```
-   Les URLs actuelles de `og:image` sont relatives (volontairement) : la plupart des réseaux
-   sociaux exigent une URL absolue.
-2. **Sitemap** — créer `sitemap.xml` une fois le domaine connu :
-   ```xml
-   <?xml version="1.0" encoding="UTF-8"?>
-   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-     <url><loc>https://VOTRE-DOMAINE/</loc><lastmod>2026-11-13</lastmod></url>
-   </urlset>
-   ```
-   puis ajouter `Sitemap: https://VOTRE-DOMAINE/sitemap.xml` à la fin de `robots.txt`.
-3. **Photos** — pour remplacer une image, garder le même nom de fichier dans `assets/`
+1. **Domaine personnalisé** — le site vit déjà sur `https://nabil-io.github.io/The-M-M-Sisters/`.
+   Pour utiliser un domaine propre :
+   - créer un fichier `CNAME` à la racine contenant le domaine (ex. `themmsisters.com`) ;
+   - chez le registrar : `CNAME` pour `www` → `nabil-io.github.io`, et 4 enregistrements `A`
+     pour le domaine racine → `185.199.108.153`, `.109.153`, `.110.153`, `.111.153` ;
+   - *Settings → Pages → Custom domain*, puis cocher **Enforce HTTPS** ;
+   - remplacer `https://nabil-io.github.io/The-M-M-Sisters/` par la nouvelle URL dans
+     `index.html` (`canonical`, `og:url`, `og:image`, `twitter:image`, JSON-LD), `sitemap.xml`
+     et la ligne `Sitemap:` de `robots.txt`, puis relancer `python build-standalone.py`.
+
+2. **Photos** — pour remplacer une image, garder le même nom de fichier dans `assets/`
    (ratio 3:4 conseillé) puis relancer `python build-standalone.py`.
-4. **Contenus** — les textes sont en anglais (le site d'origine l'était). Si une version française
+
+3. **Contenus** — les textes sont en anglais (le site d'origine l'était). Si une version française
    est souhaitée, prévoir deux pages ou un sélecteur de langue.
-5. **Contact** — Instagram uniquement pour l'instant. Si une adresse e-mail ou WhatsApp doit être
+
+4. **Contact** — Instagram uniquement pour l'instant. Si une adresse e-mail ou WhatsApp doit être
    ajoutée, créer une carte supplémentaire dans `#contact`.
 
 ## Vérifications effectuées
@@ -157,3 +176,5 @@ ou un simple dossier FTP. Il suffit d'envoyer `index.html`, `assets/`, `site.web
 - Console navigateur : aucune erreur ; toutes les images se chargent (version dossier et version
   autonome).
 - Contrastes calculés, attributs `alt`/`aria` contrôlés, un seul `h1`, pas d'ID dupliqué.
+- Site en ligne vérifié sur GitHub Pages : HTTP 200, titre et 8 photos servis correctement,
+  `Content-Type: image/webp` sur les visuels.

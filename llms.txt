@@ -5,7 +5,7 @@
 
 ## Pages
 
-- [Home](index.html): duo presentation, selected work, collaboration formats, contact.
+- [Home](https://nabil-io.github.io/The-M-M-Sisters/): duo presentation, selected work, collaboration formats, contact.
 
 ## Profiles
 
