@@ -1,0 +1,11 @@
+# Fichiers système / éditeurs
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*~
+
+# Divers
+__pycache__/
+*.log

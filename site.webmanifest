@@ -1,0 +1,24 @@
+{
+  "name": "The M&M Sisters — Twin Models & Content Creators",
+  "short_name": "M&M Sisters",
+  "description": "Portfolio of Moudjanat and Moufidath Zime, twin models and content creators based in Benin.",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#121110",
+  "theme_color": "#121110",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

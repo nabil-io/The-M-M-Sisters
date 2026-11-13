@@ -1,0 +1,3 @@
+# Allow all crawlers. Add a "Sitemap:" line once the site is deployed on its final domain.
+User-agent: *
+Allow: /
