@@ -114,7 +114,8 @@ body {
   font-family: var(--body);
   font-size: 17px;
   line-height: 1.68;
-  overflow-x: hidden;
+  overflow-x: hidden; /* filet de sécurité */
+  overflow-x: clip;   /* n'annule pas position: sticky, contrairement à hidden */
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -1236,7 +1237,8 @@ h2.big em { font-style: italic; color: var(--gold-soft); font-weight: 400; }
   .about-grid, .collab { grid-template-columns: 1fr; }
   .about-grid .portrait-frame { max-width: 460px; margin-inline: auto; }
   .collab .portrait-frame {
-    position: static;
+    position: relative; /* garde le cadre décoratif ::before sur l'image, pas sur la section */
+    top: auto;
     max-width: 400px;
     margin-bottom: 8px;
   }

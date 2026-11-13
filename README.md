@@ -81,8 +81,12 @@ dossier FTP. Il suffit d'envoyer `index.html`, `assets/`, `site.webmanifest`, `r
   et `color-scheme:light` — il cassait le thème sombre. Supprimé.
 - La logique « pleine largeur » du ticker reposait sur `margin-inline: calc(50% - 50vw)` avec un
   `body` paddingé : remplacée par une structure `.wrap` propre, plus de risque de débordement.
-- `overflow-x: hidden` sur `body` masquait les vrais débordements : vérifié à 390 / 768 / 1280 px,
-  aucun débordement horizontal.
+- **Débordement horizontal de 16 px** : le cadre décoratif de la photo « Collaborate »
+  (pseudo-élément `position:absolute` à `right:-16px`) se positionnait par rapport à la section, et
+  non à l'image, dès que la grille passait sur une colonne. Corrigé (`position: relative`).
+- `overflow-x: hidden` sur `body` masquait ce type de bug ; remplacé par `overflow-x: clip`, qui
+  conserve le filet de sécurité **sans annuler `position: sticky`**. Vérifié à 360 / 390 / 660 /
+  768 / 1000 / 1280 px : aucun débordement, cadre décoratif correct.
 
 ### Bugs d'interface
 
@@ -169,7 +173,7 @@ dossier FTP. Il suffit d'envoyer `index.html`, `assets/`, `site.webmanifest`, `r
 
 ## Vérifications effectuées
 
-- Rendu et mesures de mise en page à 390 / 768 / 1000 / 1280 px : aucun débordement, aucune
+- Rendu et mesures de mise en page à 360 / 390 / 660 / 768 / 1000 / 1280 px : aucun débordement, aucune
   troncature de texte, grilles et titres corrects.
 - Parcours testés : menu mobile (ouverture, Échap, focus), visionneuse (ouverture, flèches,
   Échap, restitution du focus, blocage du scroll), copie d'un handle, image de partage.
